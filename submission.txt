@@ -1,0 +1,194 @@
+# File submission
+# Submission ETL Pipeline - Dicoding
+
+Nama Proyek:
+ETL Pipeline Scraping Produk
+
+Deskripsi Proyek:
+Proyek ini merupakan implementasi ETL (Extract, Transform, Load) pipeline menggunakan Python.
+Pipeline ini melakukan proses scraping data produk dari website, membersihkan dan mentransformasi data,
+kemudian menyimpannya ke beberapa tujuan penyimpanan:
+
+1. File CSV
+2. Google Sheets
+3. PostgreSQL Database
+
+---
+
+## 1. Extract
+
+Tahap extract dilakukan dengan metode web scraping menggunakan library:
+- requests
+- BeautifulSoup
+
+Fungsi: scrape_products()
+
+Data yang diambil:
+- Title
+- Price
+- Rating
+- Colors
+- Size
+- Gender
+
+Output:
+List of dictionary (raw data)
+
+---
+
+## 2. Transform
+
+Tahap transform dilakukan dengan:
+- Mengubah harga ke format numerik (IDR)
+- Menghapus data tidak valid
+- Membersihkan karakter khusus
+- Menambahkan timestamp
+- Mengubah hasil menjadi pandas DataFrame
+
+Fungsi: transform_products()
+
+Output:
+pandas DataFrame dengan kolom:
+- Title
+- Price
+- Rating
+- Colors
+- Size
+- Gender
+- timestamp
+
+---
+
+## 3. Load
+
+### 3.1 Simpan ke CSV
+Fungsi: save_to_csv()
+Output: products.csv
+
+### 3.2 Simpan ke PostgreSQL
+Menggunakan SQLAlchemy + psycopg2
+
+Database:
+- Host: localhost
+- Database: etl_db
+- User: postgres
+
+Fungsi: save_to_postgresql()
+
+Data disimpan ke tabel:
+products
+
+### 3.3 Simpan ke Google Sheets
+Menggunakan:
+- gspread
+- google-auth
+- Service Account JSON
+
+Fungsi: save_to_google_sheets()
+
+Spreadsheet:
+Dicoding ETL Submission
+https://docs.google.com/spreadsheets/d/1vN-ILWglmDnx-L0Dy6IA1G_h4QXOIVUbSlpA4CHEoIs/edit?usp=sharing
+
+---
+
+## Testing
+
+Testing dilakukan menggunakan pytest.
+
+Terdapat 3 file test:
+
+- test_extract.py
+- test_transform.py
+- test_load.py
+
+Jenis testing:
+- Integration testing (real scraping)
+- Real database insert
+- Real Google Sheets update
+
+Perintah menjalankan test:
+
+python -m pytest -v
+
+Hasil:
+5 passed
+
+---
+
+## Dependency
+
+Library yang digunakan:
+
+requests
+beautifulsoup4
+pandas
+sqlalchemy
+psycopg2-binary
+gspread
+google-auth
+pytest
+
+---
+
+## Struktur Folder
+
+submission-pemda/
+│
+├── main.py
+├── requirements.txt
+├── submission.txt
+├── products.csv
+├── google-sheets-api.json
+├── utils/
+│   ├── __init__.py
+│   ├── extract.py
+│   ├── transform.py
+│   └── load.py
+│
+└── tests/
+    ├── test_extract.py
+    ├── test_transform.py
+    └── test_load.py
+
+---
+
+## Cara Menjalankan Pipeline
+
+1. Install dependencies
+
+pip install -r requirements.txt
+
+2. Jalankan main program
+
+python main.py
+
+3. Jalankan testing
+
+python -m pytest -v
+
+atau:
+
+# Menjalankan unit test pada folder tests
+python -m pytest tests
+
+# Menjalankan test coverage pada folder tests
+coverage run -m pytest tests
+coverage report
+
+# URL Google Sheets:
+https://docs.google.com/spreadsheets/d/1vN-ILWglmDnx-L0Dy6IA1G_h4QXOIVUbSlpA4CHEoIs/edit?usp=sharing
+
+---
+
+## Catatan
+
+- PostgreSQL harus aktif
+- Database etl_db harus sudah dibuat
+- Service account Google Sheets harus sudah diberikan akses ke spreadsheet
+- File credential JSON harus tersedia
+
+---
+
+Proyek ini telah memenuhi seluruh tahapan ETL dan berhasil melakukan
+penyimpanan data ke 3 destinasi berbeda.
